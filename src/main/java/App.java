@@ -47,7 +47,7 @@ public class App {
       model.put("recipe", recipe);
       if(recipe.listAvailableCategories().size() > 0) {
         model.put("allCategories", recipe.listAvailableCategories());
-      } else if (Category.all().size() > 0 && recipe.getCategories().size() < 2){
+      } else if (recipe.getCategories().size() > 0 && recipe.listAvailableCategories().size() == 0){
         model.put("allCategories", Category.all());
       }
       model.put("recipe-categories", recipe.getCategories());

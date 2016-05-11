@@ -8,6 +8,8 @@
   <label for="instructions">Edit Instructions</label>
   <input type="textbox" name="instructions" id="instructions" value="$recipe.getInstructions()">
 
+  #if ($recipe.listAvailableCategories() > 0)
+
   <label for="category">Add a category</label>
   <select id="category" name="category">
     #foreach($category in $allCategories)
@@ -23,6 +25,8 @@
     <option value="4">4</option>
     <option value="5">5</option>
   </select>
+
+  #end
 
 
 
