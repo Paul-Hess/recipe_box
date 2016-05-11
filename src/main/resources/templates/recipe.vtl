@@ -1,0 +1,11 @@
+<h3>$recipe.getRecipeName()</h3>
+<p>$recipe.getInstructions()</p>
+<p>$recipe.getRating()</p>
+
+
+#foreach($category in $categories)
+  <p>$category.getCategoryName()</p>
+#end
+
+<a href="/recipe/$recipe.getId()/edit">Edit or Delete This Recipe</a>
+<a href="/">Home</a>
