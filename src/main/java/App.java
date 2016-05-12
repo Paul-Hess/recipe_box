@@ -47,9 +47,10 @@ public class App {
       model.put("recipe", recipe);
       if(recipe.listAvailableCategories().size() > 0) {
         model.put("allCategories", recipe.listAvailableCategories());
-      } else if (recipe.getCategories().size() > 0 && recipe.listAvailableCategories().size() == 0){
+      } else {
         model.put("allCategories", Category.all());
       }
+      model.put("allCategoriesSize", Category.all().size());
       model.put("recipe-categories", recipe.getCategories());
       model.put("template", "templates/edit-recipe.vtl");
       return new ModelAndView(model, layout);

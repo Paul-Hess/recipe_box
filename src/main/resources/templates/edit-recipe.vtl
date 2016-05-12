@@ -17,6 +17,15 @@
     #end
   </select>
 
+  #elseif ($recipe.getCategories().size() != $allCategoriesSize)
+  <label for="category">Add a category</label>
+  <select id="category" name="category">
+    #foreach($category in $allCategories)
+      <option value="$category.getId()">$category.getCategoryName()</option>
+    #end
+  </select>
+  #end
+
   <label for="rating">Change rating: </label>
   <select id="rating" name="rating">
     <option value="1">1</option>
@@ -26,9 +35,6 @@
     <option value="5">5</option>
   </select>
 
-  #end
-
-
 
   <button id="edit-recipe" type="submit">submit</button>
 </form>
@@ -37,6 +43,7 @@
   <button type="submit" id="delete-recipe">Delete this recipe</button>
 </form>
 <hr/>
+#if($recipe.getCategories().size() > 0)
 <form action="/recipe/$recipe.getId()/remove-category" method="post">
   <select id="remove-category" name="remove-category">
     #foreach($category in $recipe.getCategories())
@@ -45,3 +52,4 @@
   </select>
   <button id="category-remove" type="submit">remove category</button>
 </form>
+#end
