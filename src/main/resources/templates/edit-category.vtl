@@ -1,0 +1,48 @@
+<h3>Edit: $category.getCategoryName()</h3>
+
+<form action="/category/$category.getId()/edit" method="post">
+
+  <label for="category-name">New category name</label>
+  <input id="category-name" name="category-name">
+
+  #if ($category.listAvailableRecipes().size() > 0)
+    <label for="recipe">Add a Recipe: </label>
+    <select id="recipe" name="recipe" >
+      #foreach($recipe in $allRecipes)
+      <option value="$recipe.getId()">$recipe.getRecipeName()</option>
+      #end
+    </select>
+
+  #elseif ($category.getRecipes().size() != $allRecipesSize)
+    <label for="recipe">Add a Recipe: </label>
+    <select id="recipe" name="recipe" >
+      #foreach($recipe in $allRecipes)
+      <option value="$recipe.getId()">$recipe.getRecipeName()</option>
+      #end
+    </select>
+  #end
+  <button type="submit" id="edit-category">Submit</button>
+</form>
+
+<form action="/category/$category.getId()/delete" method="post">
+  <button id="delete-category" type="submit">Delete this Category</button>
+</form>
+
+<hr>
+
+#if($category.getRecipes().size() > 0)
+  <form action="/category/$category.getId()/remove-recipe" method="post">
+    <select id="remove-recipe" name="remove-recipe">
+      #foreach($recipe in $category.getRecipes())
+        <option value="$recipe.getId()">$recipe.getRecipeName()</option>
+      #end
+    </select>
+    <button type="submit" id="recipe-remove">Remove Recipe</button>
+  </form>
+#end
+
+<a href="/add-recipe">Add a Recipe</a>
+<a href="/list-recipes">List All Recipes</a>
+<a href="/add-category">Add a Category</a>
+<a href="/categories">List All Categories</a>
+<a href="/">Home</a>

@@ -25,6 +25,24 @@ public class Category {
     return this.category_name;
   }
 
+  public List<Recipe> getRecipes() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT recipes.* FROM categories JOIN recipes_categories ON (categories.id = recipes_categories.category_id) JOIN recipes ON (recipes_categories.recipe_id = recipes.id) WHERE categories.id =:id;";
+      return con.createQuery(sql)
+        .addParameter("id", this.id)
+        .executeAndFetch(Recipe.class);
+    }
+  }
+
+  public List<Recipe> listAvailableRecipes() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT recipes.* FROM categories JOIN recipes_categories ON (categories.id = recipes_categories.category_id) JOIN recipes ON (recipes_categories.recipe_id != recipes.id) WHERE categories.id = :id;";
+      return con.createQuery(sql)
+        .addParameter("id", this.id)
+        .executeAndFetch(Recipe.class);
+    }
+  }
+
   public int getId() {
     return this.id;
   }

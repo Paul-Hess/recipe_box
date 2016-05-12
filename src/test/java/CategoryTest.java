@@ -72,4 +72,27 @@ public class CategoryTest {
     Category updatedCategory = Category.findById(testCategory.getId());
     assertEquals("Name 2", updatedCategory.getCategoryName());
   }
+
+  @Test
+  public void getRecipes_returnsRecipesTaggedWithCategory_true() {
+    Category testCategory = new Category("Name 1");
+    testCategory.save();
+    Recipe testRecipe = new Recipe("Name 1", "Instructions", 5);
+    testRecipe.save();
+    testRecipe.addCategory(testCategory);
+    Recipe associatedRecipe = testCategory.getRecipes().get(0);
+    assertTrue(testRecipe.equals(associatedRecipe));
+  }
+
+  @Test
+  public void listAvailableRecipes_returnsRecipesNotTaggedWithCurrentCategory_true() {
+    Category testCategory = new Category("Name 1");
+    testCategory.save();
+    Recipe testRecipe = new Recipe("Name 1", "Instructions", 5);
+    testRecipe.save();
+    testRecipe.addCategory(testCategory);
+    Recipe testRecipe2 = new Recipe("Name 2", "Instructions", 4);
+    testRecipe2.save();
+    assertTrue(testRecipe2.equals(testCategory.listAvailableRecipes().get(0)));
+  }
 }

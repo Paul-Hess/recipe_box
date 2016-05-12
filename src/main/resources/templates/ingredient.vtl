@@ -1,0 +1,6 @@
+<h2>$ingredient.getIngredientName()</h2>
+
+
+#foreach ($recipe in $recipes)
+  <a href="/recipe/$recipe.getId()">$recipe.getRecipeName()</a>
+#end

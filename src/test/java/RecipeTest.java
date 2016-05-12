@@ -1,6 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 import org.sql2o.*;
+import java.util.List;
 
 public class RecipeTest {
 
@@ -108,6 +109,17 @@ public class RecipeTest {
   }
 
   @Test
+  public void getCategories_returnsCategoriesTaggedToRecipes_true() {
+    Category testCategory = new Category("Name 1");
+    testCategory.save();
+    Recipe testRecipe = new Recipe("Name 1", "Instructions", 5);
+    testRecipe.save();
+    testRecipe.addCategory(testCategory);
+    Category associatedCategory = testRecipe.getCategories().get(0);
+    assertTrue(testCategory.equals(associatedCategory));
+  }
+
+  @Test
   public void listAvailableCategories_findsAllUnassignedCategories_List() {
     Recipe testRecipe = new Recipe("Name 1", "Instructions", 5);
     testRecipe.save();
@@ -134,6 +146,19 @@ public class RecipeTest {
   }
 
   @Test
+  public void listAvailableIngredients_findsAllUnassignedIngredients_List() {
+    Recipe testRecipe = new Recipe("Name 1", "Instructions", 5);
+    testRecipe.save();
+    Ingredient testIngredient = new Ingredient("Ingredient 1");
+    testIngredient.save();
+    testRecipe.addIngredient(testIngredient);
+    Ingredient testIngredient2 = new Ingredient("Ingredient 2");
+    testIngredient2.save();
+    Ingredient unAssignedIngredient = testRecipe.listAvailableIngredients().get(0);
+    assertTrue(testIngredient2.equals(unAssignedIngredient));
+  }
+
+  @Test
   public void removeCategory_removesCategoryAssociationFromJoinTable() {
     Recipe testRecipe = new Recipe("Name 1", "Instructions", 5);
     testRecipe.save();
@@ -157,5 +182,34 @@ public class RecipeTest {
     testRecipe.removeIngredient(testIngredient.getId());
 
     assertEquals(0, testRecipe.getIngredients().size());
+  }
+
+  @Test
+  public void search_findSetOfRecipesByKeyword_list() {
+    Recipe testRecipe = new Recipe("beans", "Instructions", 1);
+    testRecipe.save();
+    Recipe testRecipe2 = new Recipe("Rice", "Instructions", 2);
+    testRecipe2.save();
+    Recipe testRecipe3 = new Recipe("rich dessert", "Instructions", 3);
+    testRecipe3.save();
+    Recipe testRecipe4 = new Recipe("chocolate", "Instructions", 4);
+    testRecipe4.save();
+    List<Recipe> testSearch = Recipe.search("rIc");
+    assertTrue(testSearch.get(0).equals(testRecipe2));
+    assertEquals(testSearch.size(), 2);
+  }
+
+  @Test
+  public void sortByRating_returnsListSortedByRating_list() {
+    Recipe testRecipe = new Recipe("beans", "Instructions", 2);
+    testRecipe.save();
+    Recipe testRecipe2 = new Recipe("rice", "Instructions", 4);
+    testRecipe2.save();
+    Recipe testRecipe3 = new Recipe("rich dessert", "Instructions", 1);
+    testRecipe3.save();
+    Recipe testRecipe4 = new Recipe("chocolate", "Instructions", 3);
+    testRecipe4.save();
+    List<Recipe> testSort = Recipe.sortByRating();
+    assertTrue(testSort.get(0).equals(testRecipe2));
   }
 }

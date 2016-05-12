@@ -177,4 +177,30 @@ public class Recipe {
         .executeUpdate();
     }
   }
+
+  public static List<Recipe> search(String searchQuery) {
+    try(Connection con = DB.sql2o.open()) {
+      String search = "SELECT * FROM recipes WHERE lower(recipe_name) LIKE :searchQuery;";
+      return con.createQuery(search)
+        .addParameter("searchQuery", "%" + searchQuery.toLowerCase() + "%")
+        .executeAndFetch(Recipe.class);
+    }
+  }
+
+  public static List<Recipe> sortByRating() {
+    try(Connection con = DB.sql2o.open()) {
+      String sort = "SELECT * FROM recipes ORDER BY rating DESC;";
+      return con.createQuery(sort)
+        .executeAndFetch(Recipe.class);
+    }
+  }
+
+  public List<Ingredient> listAvailableIngredients() {
+    try(Connection con = DB.sql2o.open()) {
+      String joinQuery = "SELECT ingredients.* FROM recipes JOIN recipes_ingredients ON (recipes.id = recipes_ingredients.recipe_id) JOIN ingredients ON (recipes_ingredients.ingredient_id != ingredients.id) WHERE recipes.id =:id;";
+      return con.createQuery(joinQuery)
+        .addParameter("id", this.id)
+        .executeAndFetch(Ingredient.class);
+    }
+  }
 }

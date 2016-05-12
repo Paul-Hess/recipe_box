@@ -6,9 +6,9 @@
   <input type="text" id="recipe_name" name="recipe_name" value="$recipe.getRecipeName()">
 
   <label for="instructions">Edit Instructions</label>
-  <input type="textbox" name="instructions" id="instructions" value="$recipe.getInstructions()">
+  <textarea rows="4" name="instructions" id="instructions" value="$recipe.getInstructions()"></textarea>
 
-  #if ($recipe.listAvailableCategories() > 0)
+  #if ($recipe.listAvailableCategories().size() > 0)
 
   <label for="category">Add a category</label>
   <select id="category" name="category">
@@ -42,7 +42,8 @@
 <form action="/recipe/$recipe.getId()/delete" method="post">
   <button type="submit" id="delete-recipe">Delete this recipe</button>
 </form>
-<hr/>
+
+<hr>
 #if($recipe.getCategories().size() > 0)
 <form action="/recipe/$recipe.getId()/remove-category" method="post">
   <select id="remove-category" name="remove-category">
@@ -50,6 +51,49 @@
       <option value="$category.getId()">$category.getCategoryName()</option>
     #end
   </select>
+
   <button id="category-remove" type="submit">remove category</button>
 </form>
 #end
+
+#if($recipe.listAvailableIngredients().size() > 0)
+<form action="/recipe/$recipe.getId()/add-ingredient" method="post">
+  <select name="add-ingredient" id="add-ingredient">
+  #foreach($ingredient in $allIngredients)
+    <option value="$ingredient.getId()">$ingredient.getIngredientName()</option>
+  #end
+</select>
+    <button type="submit" id="submit-ingredient">submit</button>
+</form>
+
+#elseif($recipe.getIngredients().size() != $allIngredientsSize)
+  <form action="/recipe/$recipe.getId()/add-ingredient" method="post">
+    <select name="add-ingredient" id="add-ingredient">
+    #foreach($ingredient in $allIngredients)
+      <option value="$ingredient.getId()">$ingredient.getIngredientName()</option>
+    #end
+  </select>
+      <button type="submit" id="submit-ingredient">add ingredient</button>
+  </form>
+#end
+
+#if($recipe.getIngredients().size() > 0)
+<form action="/recipe/$recipe.getId()/remove-ingredient" method="post">
+  <select id="remove-ingredient" name="remove-ingredient">
+    #foreach($ingredient in $recipe.getIngredients())
+      <option value="$ingredient.getId()">$ingredient.getIngredientName()</option>
+    #end
+  </select>
+
+  <button id="ingredient-remove" type="submit">remove ingredient</button>
+</form>
+#end
+
+
+
+
+<a href="/add-recipe">Add a Recipe</a>
+<a href="/list-recipes">List All Recipes</a>
+<a href="/add-category">Add a Category</a>
+<a href="/categories">List All Categories</a>
+<a href="/">Home</a>

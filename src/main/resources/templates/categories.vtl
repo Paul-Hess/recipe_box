@@ -1,0 +1,11 @@
+<h1>All Categories</h1>
+#foreach ($category in $categories)
+  <a href="/category/$category.getId()">$category.getCategoryName()</a>
+  <br>
+#end
+
+<br>
+<a href="/add-recipe">Add a Recipe</a>
+<a href="/list-recipes">List All Recipes</a>
+<a href="/add-category">Add a Category</a>
+<a href="/">Home</a>

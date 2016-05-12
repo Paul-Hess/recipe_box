@@ -1,11 +1,19 @@
-<h1>All Recipes</h1>
+<h1>All Recipes Sorted By Rating</h1>
+
+<form action="/search-recipe" method="post">
+  <label for="search-recipe">Search</label>
+  <input id="search-recipe" name="search-recipe">
+
+  <button type="submit" id="search-button">SEARCH</button>
+</form>
 
 #foreach ($recipe in $recipes)
   <a href="/recipe/$recipe.getId()">$recipe.getRecipeName()</a>
+  <p>Rating: $recipe.getRating()</p>
   <br>
 #end
 
 <a href="/add-recipe">Add a Recipe</a>
-<a href="/search-recipes">Search Recipes</a>
 <a href="/add-category">Add a Category</a>
-<a href="/list-categories">List All Categories</a><a href="/">Home</a>
+<a href="/categories">List All Categories</a>
+<a href="/">Home</a>

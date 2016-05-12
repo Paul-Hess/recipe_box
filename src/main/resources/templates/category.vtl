@@ -1,0 +1,12 @@
+<h2>$category.getCategoryName()</h2>
+
+#foreach ($recipe in $recipes)
+  <a href="/recipe/$recipe.getId()">$recipe.getRecipeName()</a>
+#end
+
+<a href="/category/$category.getId()/edit">Edit or Delete This Category</a>
+<a href="/add-recipe">Add a Recipe</a>
+<a href="/list-recipes">List All Recipes</a>
+<a href="/add-category">Add a Category</a>
+<a href="/categories">List All Categories</a>
+<a href="/">Home</a>
